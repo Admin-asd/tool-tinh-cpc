@@ -1,0 +1,453 @@
+<!doctype html>
+<!-- Vị trí file: wp-content/gb-tools/calculators/cong-cu-tinh-cpc.html -->
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Công cụ tính CPC, CPM và CTR quảng cáo online - CPC Calculator</title>
+<meta name="description" content="Tính toán nhanh chỉ số CPC (chi phí mỗi lượt nhấp), CPM và tỷ lệ nhấp CTR cho chiến dịch quảng cáo kèm biểu đồ trực quan và phân tích công thức từng bước.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
+    --color-primary: #fdca1e; --color-primary-hover: #e8b008; --color-primary-soft: #fffbeb;
+    --color-primary-ink: #9c6406; --color-ink: #0f172a; --color-neutral: #e2e8f0;
+  }
+</style>
+</head>
+<body class="bg-white font-sans text-ink antialiased">
+<main class="mx-auto max-w-4xl p-4 sm:p-6 space-y-6">
+
+  <!-- 1. Hộp THỬ MỘT VÍ DỤ (Viền nét đứt) -->
+  <div class="border-2 border-dashed border-amber-300 bg-primary-soft/60 rounded-2xl p-5 space-y-3">
+    <div class="text-xs font-bold uppercase tracking-wider text-primary-ink">THỬ MỘT VÍ DỤ:</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <button type="button" onclick="applyPreset(5, 1)" class="text-left rounded-xl border border-amber-300 bg-white hover:border-primary hover:bg-primary-soft p-3.5 transition-all cursor-pointer shadow-2xs space-y-1">
+        <div class="font-bold text-xs text-ink">Quảng cáo hiển thị</div>
+        <div class="text-xs font-mono text-slate-600">CPM $5, CTR 1%</div>
+      </button>
+      <button type="button" onclick="applyPreset(25, 4)" class="text-left rounded-xl border border-amber-300 bg-white hover:border-primary hover:bg-primary-soft p-3.5 transition-all cursor-pointer shadow-2xs space-y-1">
+        <div class="font-bold text-xs text-ink">Quảng cáo tìm kiếm</div>
+        <div class="text-xs font-mono text-slate-600">CPM $25, CTR 4%</div>
+      </button>
+      <button type="button" onclick="applyPreset(8, 1.5)" class="text-left rounded-xl border border-amber-300 bg-white hover:border-primary hover:bg-primary-soft p-3.5 transition-all cursor-pointer shadow-2xs space-y-1">
+        <div class="font-bold text-xs text-ink">Mạng xã hội</div>
+        <div class="text-xs font-mono text-slate-600">CPM $8, CTR 1.5%</div>
+      </button>
+      <button type="button" onclick="applyPreset(15, 2)" class="text-left rounded-xl border border-amber-300 bg-white hover:border-primary hover:bg-primary-soft p-3.5 transition-all cursor-pointer shadow-2xs space-y-1">
+        <div class="font-bold text-xs text-ink">Quảng cáo video</div>
+        <div class="text-xs font-mono text-slate-600">CPM $15, CTR 2%</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. PHỄU QUẢNG CÁO -->
+  <div class="bg-white border border-neutral rounded-2xl p-6 shadow-xs space-y-5">
+    <div class="text-xs font-bold uppercase tracking-wider text-slate-500">PHỄU QUẢNG CÁO</div>
+    <div class="flex flex-col sm:flex-row items-center justify-around gap-4 py-2">
+      <!-- Bước 1: Lượt hiển thị -->
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-14 h-14 rounded-full border-2 border-primary bg-primary-soft flex items-center justify-center text-primary-ink">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+        </div>
+        <span class="text-xs font-bold text-primary-ink">Lượt hiển thị</span>
+      </div>
+
+      <!-- Mũi tên -->
+      <svg class="w-6 h-6 text-slate-300 rotate-90 sm:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke-dasharray="3 3" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+
+      <!-- Bước 2: Lượt nhấp -->
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-14 h-14 rounded-full border-2 border-primary bg-primary-soft flex items-center justify-center text-primary-ink">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+        </div>
+        <span class="text-xs font-bold text-primary-ink">Lượt nhấp</span>
+      </div>
+
+      <!-- Mũi tên -->
+      <svg class="w-6 h-6 text-slate-300 rotate-90 sm:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke-dasharray="3 3" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+
+      <!-- Bước 3: Chi phí -->
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-14 h-14 rounded-full border-2 border-primary bg-primary-soft flex items-center justify-center text-primary-ink">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <span class="text-xs font-bold text-primary-ink">Chi phí</span>
+      </div>
+    </div>
+
+    <div class="border-t border-dashed border-neutral pt-5 space-y-5">
+      <div class="text-xs font-bold uppercase tracking-wider text-slate-600">BẠN MUỐN TÍNH TOÁN ĐIỀU GÌ?</div>
+
+      <!-- 3 Tab chọn chỉ số cần tính -->
+      <div class="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-slate-100 border border-neutral">
+        <button type="button" id="tabCPC" onclick="setTargetMode('CPC')" class="py-2.5 rounded-xl font-bold text-xs bg-primary text-ink shadow-xs cursor-pointer transition-all">CPC</button>
+        <button type="button" id="tabCPM" onclick="setTargetMode('CPM')" class="py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:text-ink cursor-pointer transition-all">CPM</button>
+        <button type="button" id="tabCTR" onclick="setTargetMode('CTR')" class="py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:text-ink cursor-pointer transition-all">CTR</button>
+      </div>
+
+      <!-- 3 Ô nhập liệu tương ứng -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Ô CPM -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-ink flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              CPM
+            </span>
+            <span class="text-slate-400 text-[11px]">Phí/1000 lượt xem</span>
+          </div>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-mono font-bold text-slate-400">$</span>
+            <input type="number" id="inputCPM" step="any" min="0" placeholder="0.00" class="w-full rounded-xl border border-neutral pl-8 pr-3.5 py-3 text-sm font-mono font-bold text-ink outline-none focus:border-primary bg-white">
+          </div>
+          <div id="hintCPM" class="hidden text-[10px] font-bold uppercase tracking-wider text-primary-ink">SẼ ĐƯỢC TÍNH TOÁN</div>
+        </div>
+
+        <!-- Ô CTR -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-ink flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2z"/></svg>
+              CTR
+            </span>
+            <span class="text-slate-400 text-[11px]">Tỷ lệ nhấp</span>
+          </div>
+          <div class="relative">
+            <input type="number" id="inputCTR" step="any" min="0" placeholder="0.00" class="w-full rounded-xl border border-neutral pl-3.5 pr-8 py-3 text-sm font-mono font-bold text-ink outline-none focus:border-primary bg-white">
+            <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm font-mono font-bold text-slate-400">%</span>
+          </div>
+          <div id="hintCTR" class="hidden text-[10px] font-bold uppercase tracking-wider text-primary-ink">SẼ ĐƯỢC TÍNH TOÁN</div>
+        </div>
+
+        <!-- Ô CPC -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-ink flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              CPC
+            </span>
+            <span class="text-slate-400 text-[11px]">Phí/lượt nhấp</span>
+          </div>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-mono font-bold text-slate-400">$</span>
+            <input type="number" id="inputCPC" step="any" min="0" placeholder="0.00" disabled class="w-full rounded-xl border border-neutral pl-8 pr-3.5 py-3 text-sm font-mono font-bold text-slate-500 outline-none bg-slate-50 cursor-not-allowed">
+          </div>
+          <div id="hintCPC" class="text-[10px] font-bold uppercase tracking-wider text-primary-ink">SẼ ĐƯỢC TÍNH TOÁN</div>
+        </div>
+      </div>
+
+      <!-- Nút Tính toán chỉ số -->
+      <button type="button" onclick="calculateMetrics()" class="w-full min-h-12 rounded-xl bg-primary px-6 font-bold text-sm text-ink hover:bg-primary-hover shadow-xs cursor-pointer transition-colors flex items-center justify-center gap-2">
+        <span>&rarr;</span>
+        <span>Tính toán chỉ số</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 3. KHU VỰC KẾT QUẢ & BIỂU ĐỒ & 4 BƯỚC GIẢI THÍCH (Ẩn trước khi tính) -->
+  <div id="resultsContainer" class="space-y-6 hidden">
+    
+    <!-- Khối Kết quả -->
+    <div class="bg-white border border-neutral rounded-2xl p-6 shadow-xs space-y-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 font-bold text-base text-ink">
+          <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Kết quả</span>
+        </div>
+        <span id="ctrQualityBadge" class="px-3 py-1 rounded-full bg-primary-soft border border-amber-300 text-primary-ink text-[11px] font-bold uppercase tracking-wider">CTR TỐT</span>
+      </div>
+
+      <!-- 3 Thẻ chỉ số chính -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div id="cardResultCPM" class="rounded-2xl border border-neutral bg-slate-50/40 p-4 space-y-1 relative">
+          <span id="badgeCalcCPM" class="hidden absolute top-3 right-3 px-2 py-0.5 rounded bg-primary text-ink text-[10px] font-bold uppercase">ĐÃ TÍNH</span>
+          <div class="text-xs font-bold text-slate-500">CPM</div>
+          <div id="valResultCPM" class="text-2xl font-mono font-bold text-ink">$15</div>
+          <div class="text-xs text-slate-400">Trên 1.000 lượt hiển thị</div>
+        </div>
+
+        <div id="cardResultCTR" class="rounded-2xl border border-neutral bg-slate-50/40 p-4 space-y-1 relative">
+          <span id="badgeCalcCTR" class="hidden absolute top-3 right-3 px-2 py-0.5 rounded bg-primary text-ink text-[10px] font-bold uppercase">ĐÃ TÍNH</span>
+          <div class="text-xs font-bold text-slate-500">CTR</div>
+          <div id="valResultCTR" class="text-2xl font-mono font-bold text-ink">2%</div>
+          <div class="text-xs text-slate-400">Tỷ lệ nhấp chuột</div>
+        </div>
+
+        <div id="cardResultCPC" class="rounded-2xl border-2 border-primary bg-primary-soft/50 p-4 space-y-1 relative">
+          <span id="badgeCalcCPC" class="absolute top-3 right-3 px-2 py-0.5 rounded bg-primary text-ink text-[10px] font-bold uppercase">ĐÃ TÍNH</span>
+          <div class="text-xs font-bold text-slate-500">CPC</div>
+          <div id="valResultCPC" class="text-2xl font-mono font-bold text-primary-ink">$0.75</div>
+          <div class="text-xs text-slate-500">Chi phí mỗi lượt nhấp</div>
+        </div>
+      </div>
+
+      <!-- 2 Thẻ phụ bên dưới -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="rounded-2xl border border-neutral bg-white p-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs text-slate-500">Lượt nhấp trên 1.000 lượt hiển thị</div>
+            <div id="valClicksPer1k" class="text-base font-mono font-bold text-ink">20 lượt nhấp</div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-neutral bg-white p-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl bg-amber-50 text-primary-ink flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs text-slate-500">Chi phí cho 1.000 lượt nhấp</div>
+            <div id="valCostPer1kClicks" class="text-base font-mono font-bold text-ink">$750</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Biểu đồ cột Số liệu chiến dịch trên 1.000 lượt hiển thị -->
+    <div class="bg-white border border-neutral rounded-2xl p-6 shadow-xs space-y-4">
+      <div class="font-bold text-sm text-center text-ink">Số liệu chiến dịch trên 1.000 lượt hiển thị</div>
+      <div class="w-full overflow-x-auto">
+        <svg id="campaignChart" viewBox="0 0 640 260" class="w-full h-auto max-h-64 select-none">
+          <!-- Render biểu đồ cột bằng JS -->
+        </svg>
+      </div>
+    </div>
+
+    <!-- 4 Bước giải thích công thức chi tiết -->
+    <div class="space-y-3">
+      <div class="bg-white border border-neutral border-l-4 border-l-primary rounded-xl p-5 shadow-2xs space-y-2 text-xs">
+        <div class="font-bold text-sm text-primary-ink">Bước 1: Xác định các giá trị đã biết</div>
+        <div id="step1Line1" class="text-slate-700 font-medium">CPM (Chi phí cho mỗi 1.000 lần hiển thị) = <strong>$15</strong></div>
+        <div id="step1Line2" class="text-slate-700 font-medium">CTR (Tỷ lệ nhấp chuột) = <strong>2%</strong></div>
+      </div>
+
+      <div class="bg-white border border-neutral border-l-4 border-l-primary rounded-xl p-5 shadow-2xs space-y-2 text-xs">
+        <div id="step2Title" class="font-bold text-sm text-primary-ink">Bước 2: Áp dụng công thức CPC</div>
+        <div id="step2FormulaMain" class="inline-block rounded-lg bg-slate-50 border border-neutral px-4 py-2.5 font-mono font-bold text-sm text-ink">
+          CPC = CPM / (CTR &times; 10)
+        </div>
+        <div id="step2FormulaNote" class="text-slate-500 italic">Công thức này bắt nguồn từ: CPC = CPM / (CTR% / 100 &times; 1000)</div>
+      </div>
+
+      <div class="bg-white border border-neutral border-l-4 border-l-primary rounded-xl p-5 shadow-2xs space-y-2 text-xs">
+        <div class="font-bold text-sm text-primary-ink">Bước 3: Tính toán</div>
+        <div id="step3Calculation" class="inline-block rounded-lg bg-slate-50 border border-neutral px-4 py-2.5 font-mono font-bold text-sm text-ink">
+          CPC = 15 / (2 &times; 10) = 15 / 20 = $0.75
+        </div>
+      </div>
+
+      <div class="bg-white border border-neutral border-l-4 border-l-primary rounded-xl p-5 shadow-2xs space-y-2 text-xs">
+        <div class="font-bold text-sm text-primary-ink">Bước 4: Giải thích kết quả</div>
+        <p id="step4Explain1" class="text-slate-700 leading-relaxed">Với CPM là $15 và CTR là 2%, bạn trả <strong>$0.75</strong> cho mỗi lần nhấp chuột.</p>
+        <p id="step4Explain2" class="text-slate-700 leading-relaxed">Điều này có nghĩa là cứ 1.000 lần hiển thị quảng cáo, bạn sẽ nhận được xấp xỉ <strong>20</strong> lần nhấp chuột.</p>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+  let targetMode = 'CPC'; // 'CPC', 'CPM', hoặc 'CTR'
+
+  function fmtNum(n, maxDecimals = 2) {
+    if (!isFinite(n)) return '0';
+    return Number(n.toFixed(maxDecimals)).toString();
+  }
+
+  function setTargetMode(mode) {
+    targetMode = mode;
+    const tabs = ['CPC', 'CPM', 'CTR'];
+
+    tabs.forEach(m => {
+      const tabBtn = document.getElementById('tab' + m);
+      const inputEl = document.getElementById('input' + m);
+      const hintEl = document.getElementById('hint' + m);
+
+      if (m === mode) {
+        tabBtn.className = 'py-2.5 rounded-xl font-bold text-xs bg-primary text-ink shadow-xs cursor-pointer transition-all';
+        inputEl.disabled = true;
+        inputEl.className = inputEl.className.replace('bg-white', 'bg-slate-50 text-slate-500 cursor-not-allowed');
+        hintEl.classList.remove('hidden');
+      } else {
+        tabBtn.className = 'py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:text-ink cursor-pointer transition-all';
+        inputEl.disabled = false;
+        inputEl.className = inputEl.className.replace('bg-slate-50 text-slate-500 cursor-not-allowed', 'bg-white');
+        hintEl.classList.add('hidden');
+      }
+    });
+  }
+
+  function applyPreset(cpm, ctr) {
+    setTargetMode('CPC');
+    document.getElementById('inputCPM').value = cpm;
+    document.getElementById('inputCTR').value = ctr;
+    calculateMetrics();
+  }
+
+  function calculateMetrics() {
+    let cpm = parseFloat(document.getElementById('inputCPM').value);
+    let ctr = parseFloat(document.getElementById('inputCTR').value);
+    let cpc = parseFloat(document.getElementById('inputCPC').value);
+
+    if (targetMode === 'CPC') {
+      if (isNaN(cpm) || cpm < 0 || isNaN(ctr) || ctr <= 0) {
+        alert('Vui lòng nhập CPM hợp lệ và CTR lớn hơn 0!');
+        return;
+      }
+      cpc = cpm / (ctr * 10);
+      document.getElementById('inputCPC').value = fmtNum(cpc, 4);
+    } else if (targetMode === 'CPM') {
+      if (isNaN(ctr) || ctr < 0 || isNaN(cpc) || cpc < 0) {
+        alert('Vui lòng nhập CTR và CPC hợp lệ!');
+        return;
+      }
+      cpm = cpc * ctr * 10;
+      document.getElementById('inputCPM').value = fmtNum(cpm, 4);
+    } else if (targetMode === 'CTR') {
+      if (isNaN(cpm) || cpm < 0 || isNaN(cpc) || cpc <= 0) {
+        alert('Vui lòng nhập CPM hợp lệ và CPC lớn hơn 0!');
+        return;
+      }
+      ctr = cpm / (cpc * 10);
+      document.getElementById('inputCTR').value = fmtNum(ctr, 4);
+    }
+
+    const clicksPer1k = ctr * 10;
+    const costPer1kClicks = cpc * 1000;
+
+    // Đánh giá chất lượng CTR
+    const ctrBadge = document.getElementById('ctrQualityBadge');
+    if (ctr >= 2) {
+      ctrBadge.textContent = 'CTR TỐT';
+      ctrBadge.className = 'px-3 py-1 rounded-full bg-primary-soft border border-amber-300 text-primary-ink text-[11px] font-bold uppercase tracking-wider';
+    } else if (ctr >= 1) {
+      ctrBadge.textContent = 'CTR TRUNG BÌNH';
+      ctrBadge.className = 'px-3 py-1 rounded-full bg-slate-100 border border-neutral text-slate-700 text-[11px] font-bold uppercase tracking-wider';
+    } else {
+      ctrBadge.textContent = 'CTR THẤP';
+      ctrBadge.className = 'px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-600 text-[11px] font-bold uppercase tracking-wider';
+    }
+
+    // Cập nhật 3 thẻ kết quả & highlight thẻ vừa tính
+    ['CPM', 'CTR', 'CPC'].forEach(m => {
+      const card = document.getElementById('cardResult' + m);
+      const badge = document.getElementById('badgeCalc' + m);
+      const valEl = document.getElementById('valResult' + m);
+
+      if (m === targetMode) {
+        card.className = 'rounded-2xl border-2 border-primary bg-primary-soft/50 p-4 space-y-1 relative';
+        badge.classList.remove('hidden');
+        valEl.className = 'text-2xl font-mono font-bold text-primary-ink';
+      } else {
+        card.className = 'rounded-2xl border border-neutral bg-slate-50/40 p-4 space-y-1 relative';
+        badge.classList.add('hidden');
+        valEl.className = 'text-2xl font-mono font-bold text-ink';
+      }
+    });
+
+    document.getElementById('valResultCPM').textContent = `$${fmtNum(cpm, 2)}`;
+    document.getElementById('valResultCTR').textContent = `${fmtNum(ctr, 2)}%`;
+    document.getElementById('valResultCPC').textContent = `$${fmtNum(cpc, 2)}`;
+
+    document.getElementById('valClicksPer1k').textContent = `${fmtNum(clicksPer1k, 2)} lượt nhấp`;
+    document.getElementById('valCostPer1kClicks').textContent = `$${fmtNum(costPer1kClicks, 2)}`;
+
+    // Cập nhật 4 bước giải thích công thức
+    updateExplanationSteps(cpm, ctr, cpc, clicksPer1k);
+
+    // Vẽ biểu đồ cột SVG
+    renderBarChart(1000, clicksPer1k, cpm);
+
+    document.getElementById('resultsContainer').classList.remove('hidden');
+  }
+
+  function updateExplanationSteps(cpm, ctr, cpc, clicksPer1k) {
+    const sCpm = fmtNum(cpm, 2);
+    const sCtr = fmtNum(ctr, 2);
+    const sCpc = fmtNum(cpc, 2);
+    const sClicks = fmtNum(clicksPer1k, 2);
+
+    const step1Line1 = document.getElementById('step1Line1');
+    const step1Line2 = document.getElementById('step1Line2');
+    const step2Title = document.getElementById('step2Title');
+    const step2Main = document.getElementById('step2FormulaMain');
+    const step2Note = document.getElementById('step2FormulaNote');
+    const step3Calc = document.getElementById('step3Calculation');
+
+    if (targetMode === 'CPC') {
+      step1Line1.innerHTML = `CPM (Chi phí cho mỗi 1.000 lần hiển thị) = <strong>$${sCpm}</strong>`;
+      step1Line2.innerHTML = `CTR (Tỷ lệ nhấp chuột) = <strong>${sCtr}%</strong>`;
+      step2Title.textContent = 'Bước 2: Áp dụng công thức CPC';
+      step2Main.innerHTML = 'CPC = CPM / (CTR &times; 10)';
+      step2Note.textContent = 'Công thức này bắt nguồn từ: CPC = CPM / (CTR% / 100 × 1000)';
+      step3Calc.innerHTML = `CPC = ${sCpm} / (${sCtr} &times; 10) = ${sCpm} / ${sClicks} = <strong>$${sCpc}</strong>`;
+    } else if (targetMode === 'CPM') {
+      step1Line1.innerHTML = `CTR (Tỷ lệ nhấp chuột) = <strong>${sCtr}%</strong>`;
+      step1Line2.innerHTML = `CPC (Chi phí cho mỗi lượt nhấp) = <strong>$${sCpc}</strong>`;
+      step2Title.textContent = 'Bước 2: Áp dụng công thức CPM';
+      step2Main.innerHTML = 'CPM = CPC &times; CTR &times; 10';
+      step2Note.textContent = 'Công thức này bắt nguồn từ: CPM = CPC × (CTR% / 100 × 1000)';
+      step3Calc.innerHTML = `CPM = ${sCpc} &times; ${sCtr} &times; 10 = <strong>$${sCpm}</strong>`;
+    } else {
+      step1Line1.innerHTML = `CPM (Chi phí cho mỗi 1.000 lần hiển thị) = <strong>$${sCpm}</strong>`;
+      step1Line2.innerHTML = `CPC (Chi phí cho mỗi lượt nhấp) = <strong>$${sCpc}</strong>`;
+      step2Title.textContent = 'Bước 2: Áp dụng công thức CTR';
+      step2Main.innerHTML = 'CTR = (CPM / (CPC &times; 10))%';
+      step2Note.textContent = 'Công thức này bắt nguồn từ: CTR% = (Số lượt nhấp / 1000) × 100';
+      step3Calc.innerHTML = `CTR = ${sCpm} / (${sCpc} &times; 10) = <strong>${sCtr}%</strong>`;
+    }
+
+    document.getElementById('step4Explain1').innerHTML = `Với CPM là $${sCpm} và CTR là ${sCtr}%, bạn trả <strong>$${sCpc}</strong> cho mỗi lần nhấp chuột.`;
+    document.getElementById('step4Explain2').innerHTML = `Điều này có nghĩa là cứ 1.000 lần hiển thị quảng cáo, bạn sẽ nhận được xấp xỉ <strong>${sClicks}</strong> lần nhấp chuột.`;
+  }
+
+  function renderBarChart(impressions, clicks, cost) {
+    const svg = document.getElementById('campaignChart');
+    const maxVal = Math.max(1000, clicks, cost);
+    const chartLeft = 65;
+    const chartRight = 610;
+    const chartTop = 20;
+    const chartBottom = 215;
+    const chartHeight = chartBottom - chartTop;
+
+    let gridLines = '';
+    for (let i = 0; i <= 10; i++) {
+      const val = Math.round((maxVal / 10) * i);
+      const y = chartBottom - (chartHeight * (i / 10));
+      gridLines += `
+        <line x1="${chartLeft}" y1="${y}" x2="${chartRight}" y2="${y}" stroke="#f1f5f9" stroke-width="1"/>
+        <text x="${chartLeft - 10}" y="${y + 4}" text-anchor="end" font-size="11" fill="#64748b" font-family="monospace">${val.toLocaleString('en-US')}</text>
+      `;
+    }
+
+    const bars = [
+      { label: 'Lượt hiển thị', val: impressions, x: 110, fill: '#fef3c7', stroke: '#fdca1e' },
+      { label: 'Lượt nhấp', val: clicks, x: 290, fill: '#dcfce7', stroke: '#16a34a' },
+      { label: 'Chi phí ($)', val: cost, x: 470, fill: '#ffedd5', stroke: '#d97706' }
+    ];
+
+    let barElements = '';
+    bars.forEach(b => {
+      const barH = Math.max(4, (b.val / maxVal) * chartHeight);
+      const y = chartBottom - barH;
+      barElements += `
+        <rect x="${b.x}" y="${y}" width="110" height="${barH}" rx="6" fill="${b.fill}" stroke="${b.stroke}" stroke-width="2"/>
+        <text x="${b.x + 55}" y="${chartBottom + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#475569">${b.label}</text>
+      `;
+    });
+
+    svg.innerHTML = `
+      ${gridLines}
+      <line x1="${chartLeft}" y1="${chartBottom}" x2="${chartRight}" y2="${chartBottom}" stroke="#cbd5e1" stroke-width="1.5"/>
+      ${barElements}
+    `;
+  }
+</script>
+</body>
+</html>
